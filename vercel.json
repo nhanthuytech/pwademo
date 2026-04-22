@@ -2,5 +2,15 @@
   "framework": null,
   "buildCommand": null,
   "outputDirectory": ".",
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/app",
+      "destination": "https://developer.android.com/"
+    },
+    {
+      "source": "/app/:path*",
+      "destination": "https://developer.android.com/:path*"
+    }
+  ]
 }

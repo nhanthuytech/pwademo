@@ -2,7 +2,7 @@
   "name": "Android Developer Hub",
   "short_name": "Android Dev",
   "description": "Your hub for Android Development - App Demo",
-  "start_url": "/app.html",
+  "start_url": "/app",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#073042",
