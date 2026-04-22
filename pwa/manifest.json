@@ -2,7 +2,7 @@
   "name": "My App Name",
   "short_name": "MyApp",
   "description": "Mô tả ứng dụng của bạn",
-  "start_url": "/",
+  "start_url": "/go.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#073042",
