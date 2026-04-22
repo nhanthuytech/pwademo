@@ -2,6 +2,7 @@ const CACHE_NAME = 'pwa-demo-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
+  '/app.html',
   '/style.css',
   '/pwa-manager.js',
   '/manifest.json'
