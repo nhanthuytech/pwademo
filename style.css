@@ -238,3 +238,80 @@ footer a:hover {
     from { opacity: 0; transform: translateY(-30px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+.download-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.download-btn:disabled:hover {
+    transform: none;
+}
+
+/* iOS Install Modal */
+.ios-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.ios-modal-content {
+    background: #1a2332;
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 32px 24px;
+    max-width: 380px;
+    width: 100%;
+    position: relative;
+    animation: fadeInUp 0.3s ease-out;
+}
+
+.ios-modal-content h2 {
+    font-size: 1.3rem;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.ios-close {
+    position: absolute;
+    top: 12px; right: 16px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.ios-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ios-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.step-num {
+    min-width: 32px; height: 32px;
+    background: var(--primary);
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+}

@@ -63,6 +63,28 @@
         </footer>
     </main>
 
+    <!-- iOS Install Guide Modal -->
+    <div id="ios-modal" class="ios-modal" style="display:none">
+        <div class="ios-modal-content">
+            <button class="ios-close" id="ios-close">&times;</button>
+            <h2>📱 Cài đặt trên iPhone/iPad</h2>
+            <div class="ios-steps">
+                <div class="ios-step">
+                    <span class="step-num">1</span>
+                    <span>Bấm nút <strong>Chia sẻ</strong> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3DDC84" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> ở thanh dưới cùng Safari</span>
+                </div>
+                <div class="ios-step">
+                    <span class="step-num">2</span>
+                    <span>Cuộn xuống, chọn <strong>"Thêm vào MH chính"</strong> (Add to Home Screen)</span>
+                </div>
+                <div class="ios-step">
+                    <span class="step-num">3</span>
+                    <span>Bấm <strong>"Thêm"</strong> (Add) ở góc trên bên phải</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { PWAManager } from '/pwa/pwa-manager.js';
 
@@ -73,25 +95,49 @@
         const btnText = document.getElementById('btn-text');
         const status = document.getElementById('status');
 
-        // Khi PWA sẵn sàng cài đặt
-        window.addEventListener('pwa:caninstall', () => {
-            btn.disabled = false;
-            btn.classList.add('ready-pulse');
-            btnText.textContent = 'Tải Ứng Dụng Ngay';
-            status.textContent = 'Bấm để thêm vào Màn hình chính (Add to Home Screen)';
-        });
+        // Phát hiện nền tảng
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                             window.navigator.standalone;
 
-        // Khi đã cài thành công
-        window.addEventListener('pwa:installed', () => {
+        if (isStandalone) {
+            // Đã cài và đang mở trong app mode
             btn.disabled = true;
-            btn.classList.remove('ready-pulse');
             btn.classList.add('installed');
             btnText.textContent = '✅ Đã Cài Đặt';
-            status.textContent = 'Ứng dụng đã được thêm vào màn hình chính!';
-        });
+            status.textContent = 'Bạn đang sử dụng ứng dụng!';
+        } else if (isIOS) {
+            // iOS: hiện hướng dẫn thủ công
+            btn.disabled = false;
+            btnText.textContent = 'Cài Đặt trên iOS';
+            status.textContent = 'Bấm để xem hướng dẫn cài đặt trên iPhone/iPad';
+            
+            btn.addEventListener('click', () => {
+                document.getElementById('ios-modal').style.display = 'flex';
+            });
+            document.getElementById('ios-close').addEventListener('click', () => {
+                document.getElementById('ios-modal').style.display = 'none';
+            });
+        } else {
+            // Android / Desktop Chrome / Edge: dùng beforeinstallprompt
+            window.addEventListener('pwa:caninstall', () => {
+                btn.disabled = false;
+                btn.classList.add('ready-pulse');
+                btnText.textContent = 'Tải Ứng Dụng Ngay';
+                status.textContent = 'Bấm để thêm vào Màn hình chính (Add to Home Screen)';
+            });
 
-        // Bấm nút cài đặt
-        btn.addEventListener('click', () => pwa.install());
+            window.addEventListener('pwa:installed', () => {
+                btn.disabled = true;
+                btn.classList.remove('ready-pulse');
+                btn.classList.add('installed');
+                btnText.textContent = '✅ Đã Cài Đặt';
+                status.textContent = 'Ứng dụng đã được thêm vào màn hình chính!';
+            });
+
+            btn.addEventListener('click', () => pwa.install());
+        }
         
         // Particle effect
         const particles = document.getElementById('particles');
