@@ -108,16 +108,13 @@
             btnText.textContent = '✅ Đã Cài Đặt';
             status.textContent = 'Bạn đang sử dụng ứng dụng!';
         } else if (isIOS) {
-            // iOS: hiện hướng dẫn thủ công
+            // iOS: tải file mobileconfig
             btn.disabled = false;
-            btnText.textContent = 'Cài Đặt trên iOS';
-            status.textContent = 'Bấm để xem hướng dẫn cài đặt trên iPhone/iPad';
+            btnText.textContent = 'Tải Ứng Dụng (iOS)';
+            status.textContent = 'Bấm để tải và cài đặt lên màn hình chính iPhone/iPad';
             
             btn.addEventListener('click', () => {
-                document.getElementById('ios-modal').style.display = 'flex';
-            });
-            document.getElementById('ios-close').addEventListener('click', () => {
-                document.getElementById('ios-modal').style.display = 'none';
+                window.location.href = '/app.mobileconfig';
             });
         } else {
             // Android / Desktop Chrome / Edge: dùng beforeinstallprompt
