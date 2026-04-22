@@ -1,89 +1,31 @@
 #!/bin/bash
 # ============================================================
 # PWA Setup Script
-# Cấu hình nhanh PWA cho bất kỳ website nào.
-# 
-# Cách dùng:
-#   ./setup.sh
-#   (Nhập thông tin theo hướng dẫn)
-#
-# Hoặc truyền tham số trực tiếp:
-#   ./setup.sh \
-#     --name "Tên App" \
-#     --short "ShortName" \
-#     --desc "Mô tả" \
-#     --url "https://example.com/" \
-#     --color "#073042" \
-#     --icon "/path/to/icon.png"
+# Sửa các biến bên dưới rồi chạy: ./setup.sh
 # ============================================================
 
-set -e
+# ========== SỬA Ở ĐÂY ==========
+APP_NAME="Android Developer Hub"
+SHORT_NAME="Android Dev"
+DESCRIPTION="Your hub for Android Development"
+TARGET_URL="https://developer.android.com/"
+THEME_COLOR="#073042"
+ICON_PATH=""  # Đường dẫn icon PNG (512x512). Bỏ trống = giữ icon hiện tại.
+# ================================
 
+set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-# ---- Màu sắc terminal ----
 GREEN='\033[0;32m'
 CYAN='\033[0;36m'
 YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# ---- Parse arguments ----
-APP_NAME=""
-SHORT_NAME=""
-DESCRIPTION=""
-TARGET_URL=""
-THEME_COLOR=""
-ICON_PATH=""
-
-while [[ $# -gt 0 ]]; do
-  case $1 in
-    --name)  APP_NAME="$2"; shift 2 ;;
-    --short) SHORT_NAME="$2"; shift 2 ;;
-    --desc)  DESCRIPTION="$2"; shift 2 ;;
-    --url)   TARGET_URL="$2"; shift 2 ;;
-    --color) THEME_COLOR="$2"; shift 2 ;;
-    --icon)  ICON_PATH="$2"; shift 2 ;;
-    *) echo "Unknown option: $1"; exit 1 ;;
-  esac
-done
-
-# ---- Interactive mode nếu thiếu tham số ----
+echo ""
 echo -e "${CYAN}╔══════════════════════════════════════╗${NC}"
 echo -e "${CYAN}║       📱 PWA Setup Script            ║${NC}"
 echo -e "${CYAN}╚══════════════════════════════════════╝${NC}"
 echo ""
-
-if [ -z "$APP_NAME" ]; then
-  read -p "$(echo -e ${GREEN}Tên ứng dụng${NC} [Android Developer Hub]: )" APP_NAME
-  APP_NAME="${APP_NAME:-Android Developer Hub}"
-fi
-
-if [ -z "$SHORT_NAME" ]; then
-  read -p "$(echo -e ${GREEN}Tên ngắn${NC} [Android Dev]: )" SHORT_NAME
-  SHORT_NAME="${SHORT_NAME:-Android Dev}"
-fi
-
-if [ -z "$DESCRIPTION" ]; then
-  read -p "$(echo -e ${GREEN}Mô tả${NC} [Your hub for Android Development]: )" DESCRIPTION
-  DESCRIPTION="${DESCRIPTION:-Your hub for Android Development}"
-fi
-
-if [ -z "$TARGET_URL" ]; then
-  read -p "$(echo -e ${GREEN}URL trang đích${NC} [https://developer.android.com/]: )" TARGET_URL
-  TARGET_URL="${TARGET_URL:-https://developer.android.com/}"
-fi
-
-if [ -z "$THEME_COLOR" ]; then
-  read -p "$(echo -e ${GREEN}Màu chủ đạo${NC} [#073042]: )" THEME_COLOR
-  THEME_COLOR="${THEME_COLOR:-#073042}"
-fi
-
-if [ -z "$ICON_PATH" ]; then
-  read -p "$(echo -e ${GREEN}Đường dẫn icon PNG${NC} (bỏ trống để giữ icon hiện tại): )" ICON_PATH
-fi
-
-echo ""
-echo -e "${YELLOW}━━━ Đang cập nhật...━━━${NC}"
 
 # ============================================================
 # 1. Cập nhật manifest.json
