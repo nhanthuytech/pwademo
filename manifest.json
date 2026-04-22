@@ -1,0 +1,27 @@
+{
+  "name": "Android Developer Hub",
+  "short_name": "Android Dev",
+  "description": "Your hub for Android Development - App Demo",
+  "start_url": "/?source=pwa",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#073042",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/public/icons/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Open docs",
+      "short_name": "Docs",
+      "description": "Read the Android developer docs",
+      "url": "https://developer.android.com/docs",
+      "icons": [{ "src": "/public/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Android Developer Hub | Tải App Demo</title>
+    
+    <!-- PWA Config -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#073042">
+    <link rel="apple-touch-icon" href="/public/icons/icon-192.png">
+    
+    <!-- Fonts & Styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="glass-background"></div>
+    <div class="particles" id="particles"></div>
+    
+    <main class="container">
+        <header>
+            <div class="logo">
+                <!-- SVG Logo representing Android -->
+                <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48">
+                    <path d="M17.523 15.3414C17.523 16.2713 16.7692 17.0252 15.8393 17.0252C14.9095 17.0252 14.1556 16.2713 14.1556 15.3414C14.1556 14.4116 14.9095 13.6577 15.8393 13.6577C16.7692 13.6577 17.523 14.4116 17.523 15.3414ZM9.84443 15.3414C9.84443 16.2713 9.09057 17.0252 8.16071 17.0252C7.23085 17.0252 6.47699 16.2713 6.47699 15.3414C6.47699 14.4116 7.23085 13.6577 8.16071 13.6577C9.09057 13.6577 9.84443 14.4116 9.84443 15.3414ZM18.0692 7.78544L20.0249 4.39808C20.1772 4.13401 20.0863 3.79679 19.8222 3.64446C19.5582 3.49213 19.2209 3.583 19.0686 3.84707L17.0673 7.31359C15.5393 6.61483 13.8202 6.21639 12 6.21639C10.1798 6.21639 8.46071 6.61483 6.93275 7.31359L4.93142 3.84707C4.77909 3.583 4.44186 3.49213 4.1778 3.64446C3.91373 3.79679 3.82286 4.13401 3.97519 4.39808L5.93081 7.78544C2.63939 9.58864 0.366224 12.9866 0 17.0506H24C23.6338 12.9866 21.3606 9.58864 18.0692 7.78544Z" fill="#3DDC84"/>
+                </svg>
+            </div>
+            <h1>Android Developer Hub</h1>
+            <p class="subtitle">Khám phá sức mạnh của thiết bị Android với phiên bản ứng dụng Native.</p>
+        </header>
+
+        <section class="action-card">
+            <div class="features">
+                <div class="feature-item">
+                    <span class="icon">🚀</span>
+                    <span>Tốc độ cực nhanh</span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">📱</span>
+                    <span>Hỗ trợ ngoại tuyến</span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">🔔</span>
+                    <span>Nhận thông báo</span>
+                </div>
+            </div>
+
+            <!-- Download Button -->
+            <button id="download-app-btn" class="download-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Tải Ứng Dụng Ngay
+            </button>
+            <p class="help-text" id="install-status">Đang kiểm tra trình duyệt...</p>
+        </section>
+        
+        <footer>
+            <a href="https://developer.android.com/" target="_blank" rel="noopener noreferrer">Visit developer.android.com</a>
+        </footer>
+    </main>
+
+    <!-- Load PWA logic -->
+    <script type="module">
+        import { PWAManager } from './pwa-manager.js';
+
+        // Initialize PWA Manager
+        const pwa = new PWAManager('/sw.js');
+        pwa.init();
+
+        const btn = document.getElementById('download-app-btn');
+        const statusText = document.getElementById('install-status');
+
+        // Initially we can change button state or text
+        statusText.innerText = "Trình duyệt của bạn có thể hỗ trợ cài đặt ứng dụng (PWA).";
+
+        // Listen for when PWA is actually ready to be installed (beforeinstallprompt fired)
+        window.addEventListener('pwa-ready-to-install', () => {
+            btn.classList.add('ready-pulse');
+            statusText.innerText = "Bấm để thêm vào Màn hình chính (Add to Home Screen)";
+        });
+
+        // Listen for successful installation
+        window.addEventListener('pwa-installed', () => {
+            btn.classList.remove('ready-pulse');
+            btn.classList.add('installed');
+            btn.innerHTML = '✨ Đã Cài Đặt';
+            statusText.innerText = "Cảm ơn bạn đã tải ứng dụng!";
+            btn.disabled = true;
+        });
+
+        // Bind install action to button
+        btn.addEventListener('click', async () => {
+            // We'll call the installPwa method.
+            // If the prompt was available, it returns the outcome.
+            const result = await pwa.installPwa();
+            if (result) {
+                console.log("User accepted install");
+            }
+        });
+        
+        // Simple particle effect for premium feel
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const el = document.createElement('div');
+            el.className = 'particle';
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            el.style.animationDelay = (Math.random() * 5) + 's';
+            particlesContainer.appendChild(el);
+        }
+    </script>
+</body>
+</html>
